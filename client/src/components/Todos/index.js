@@ -48,7 +48,7 @@ export default {
         localStorage.setItem("tasks", tasks);
       }
 
-      this.todos = JSON.parse(localStorage.getItem("tasks"));
+      this.todos = JSON.parse(tasks);
     },
     resetForm() {
       this.addTodoForm.description = '';
@@ -60,19 +60,18 @@ export default {
       event.preventDefault();
       this.$refs.addTodoModal.hide();
 
+      let max_uid = Math.max.apply(Math, this.todos.map(function(o) { return o.uid; }))
+      let desc = this.addTodoForm.description
       this.todos.push({
-        description: this.addTodoForm.description,
-        is_completed: this.addTodoForm.is_completed[0],
-        uid: 5,
+        description: desc,
+        is_completed: this.addTodoForm.is_completed[0] || false,
+        uid: max_uid+1,
       });
-      console.log(this.todos);
+      console.log(JSON.stringify(this.addTodoForm));
 
-//      axios.post(dataURL, requestData)
-//        .then(() => {
-//          this.getTodos();
-//          this.confirmationMessage = `Задача "${requestData.description}" добавлена`;
-//          this.showConfirmation = true;
-//        });
+      localStorage.setItem("tasks", JSON.stringify(this.todos));
+          this.confirmationMessage = `Задача "${desc}" добавлена`;
+          this.showConfirmation = true;
       this.resetForm();
     },
     onReset(event) {
@@ -84,13 +83,12 @@ export default {
       this.updateTodoForm = todo;
     },
     deleteTodo(todo) {
-//        const todoURL = dataURL + todo.uid;
-//        axios.delete(todoURL)
-//        .then(() => {
-//            this.getTodos();
-//            this.confirmationMessage = 'Задача удалена из списка';
-//            this.showConfirmation = true;
-//        });
+      this.todos = this.todos.filter((item) =>{
+        return item!==todo;
+      });
+      localStorage.setItem("tasks", JSON.stringify(this.todos));
+            this.confirmationMessage = 'Задача удалена из списка';
+            this.showConfirmation = true;
           console.log(todo);
     },
     onUpdateSubmit(event) {
