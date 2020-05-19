@@ -30,7 +30,7 @@
               <div class="btn-group" role="group">
                     <button type="button"
                         class="btn btn-secondary btn-sm"
-                        v-b-modal.todo-update-modal
+                        v-b-modal.todo-modal
                         @click="updateTodo(todo)">
                     Обновить
                 </button>

@@ -60,7 +60,7 @@ export default {
       event.preventDefault();
       this.$refs.addTodoModal.hide();
 
-      let max_uid = Math.max.apply(Math, this.todos.map(function(o) { return o.uid; }))
+      let max_uid = Math.max.apply(Math, this.todos.map(function(o) { return o.uid; }));
       let desc = this.addTodoForm.description
       this.todos.push({
         description: desc,
@@ -74,14 +74,13 @@ export default {
           this.showConfirmation = true;
       this.resetForm();
     },
+
     onReset(event) {
       event.preventDefault();
       this.$refs.addTodoModal.hide();
       this.resetForm();
     },
-    updateTodo(todo) {
-      this.updateTodoForm = todo;
-    },
+
     deleteTodo(todo) {
       this.todos = this.todos.filter((item) =>{
         return item!==todo;
@@ -89,11 +88,20 @@ export default {
       localStorage.setItem("tasks", JSON.stringify(this.todos));
             this.confirmationMessage = 'Задача удалена из списка';
             this.showConfirmation = true;
-          console.log(todo);
     },
+
+    updateTodo(todo) {
+      this.addTodoModal = todo;
+    },
+
     onUpdateSubmit(event) {
       event.preventDefault();
-      this.$refs.updateTodoModal.hide();
+      this.$refs.addTodoModal.hide();
+      localStorage.setItem("tasks", JSON.stringify(this.todos));
+      this.confirmationMessage = 'Задача обновлена';
+      this.showConfirmation = true;
+      this.getTodos();
+
 //      const requestData = {
 //        description: this.updateTodoForm.description,
 //        is_completed: this.updateTodoForm.is_completed[0],
@@ -101,9 +109,6 @@ export default {
 //      const todoURL = dataURL + this.updateTodoForm.uid;
 //      axios.put(todoURL, requestData)
 //        .then(() => {
-//          this.getTodos();
-//          this.confirmationMessage = 'Задача обновлена';
-//          this.showConfirmation = true;
 //        });
     },
     onUpdateReset(event) {
