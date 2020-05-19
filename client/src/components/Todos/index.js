@@ -20,29 +20,34 @@ export default {
   },
   methods: {
     getTodos() {
-      const tasks = `[
-            {
-              "description": "прочитать книгу",
-              "is_completed": false,
-              "uid": 1
-            },
-            {
-              "description": "учиться жонглировать 30 минут",
-              "is_completed": false,
-              "uid": 2
-            },
-            {
-              "description": "помыть посуду",
-              "is_completed": false,
-              "uid": 3
-            },
-            {
-              "description": "поесть",
-              "is_completed": false,
-              "uid": 4
-            }
-          ]`
-      localStorage.setItem("tasks", tasks);
+      let tasks = localStorage.getItem("tasks");
+
+      if (tasks === null) {
+        tasks = `[
+              {
+                "description": "прочитать книгу",
+                "is_completed": false,
+                "uid": 1
+              },
+              {
+                "description": "учиться жонглировать 30 минут",
+                "is_completed": false,
+                "uid": 2
+              },
+              {
+                "description": "помыть посуду",
+                "is_completed": false,
+                "uid": 3
+              },
+              {
+                "description": "поесть",
+                "is_completed": false,
+                "uid": 4
+              }
+            ]`;
+        localStorage.setItem("tasks", tasks);
+      }
+
       this.todos = JSON.parse(localStorage.getItem("tasks"));
     },
     resetForm() {
@@ -54,10 +59,14 @@ export default {
     onSubmit(event) {
       event.preventDefault();
       this.$refs.addTodoModal.hide();
-//      const requestData = {
-//        description: this.addTodoForm.description,
-//        is_completed: this.addTodoForm.is_completed[0],
-//      };
+
+      this.todos.push({
+        description: this.addTodoForm.description,
+        is_completed: this.addTodoForm.is_completed[0],
+        uid: 5,
+      });
+      console.log(this.todos);
+
 //      axios.post(dataURL, requestData)
 //        .then(() => {
 //          this.getTodos();
