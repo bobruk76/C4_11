@@ -49,7 +49,7 @@
 
     <b-modal ref="addTodoModal"
             id="todo-modal"
-            title="Добавить задачу"
+            :title="formSetting.title"
             hide-footer>
       <b-form @submit="onSubmit" @reset="onReset" class="w-100">
         <b-form-group id="form-description-group"
@@ -67,13 +67,12 @@
               <b-form-checkbox value="true">Задача выполнена?</b-form-checkbox>
             </b-form-checkbox-group>
           </b-form-group>
-          <b-button type="submit" variant="primary">Добавить</b-button>
+          <b-button type="submit" variant="primary">{{ formSetting.btnSubmit }}</b-button>
           <b-button type="reset" variant="danger">Сброс</b-button>
       </b-form>
     </b-modal>
 
-
-    <b-modal ref="updateTodoModal"
+<!--     <b-modal ref="updateTodoModal"
             id="todo-update-modal"
             title="Update"
             hide-footer>
@@ -97,7 +96,7 @@
         <b-button type="reset" variant="danger">Сброс</b-button>
       </b-button-group>
       </b-form>
-    </b-modal>
+    </b-modal> -->
 
     </div>
   </div>
