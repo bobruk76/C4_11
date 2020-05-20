@@ -13,9 +13,6 @@
         {{ confirmationMessage }}
       </b-alert>
 
-
-
-
       <table class="table">
         <tr class="table-success">
           <td>Выполнено задач</td>
