@@ -64,7 +64,11 @@ export default {
       event.preventDefault();
       this.$refs.addTodoModal.hide();
 
-      let max_uid = Math.max.apply(Math, this.todos.map(function(o) { return o.uid; }));
+      let max_uid = Math.max.apply(this.todos.map(function(o) { return o.uid; }));
+      console.log(max_uid);
+      if(!isFinite(max_uid)) {
+        max_uid = 0;
+      }
       let desc = this.addTodoForm.description
 
       this.todos.push({
@@ -74,9 +78,17 @@ export default {
       });
 
       localStorage.setItem("tasks", JSON.stringify(this.todos));
-          this.confirmationMessage = `Задача "${desc}" добавлена`;
-          this.showConfirmation = true;
+      this.addConfirmation(`Задача "${desc}" добавлена`);
       this.resetForm();
+    },
+
+    addConfirmation(mess) {
+      this.confirmationMessage = mess;
+      this.showConfirmation = true;
+      setTimeout(() => {
+        this.showConfirmation = false;
+        this.confirmationMessage = '';
+      }, 5000)
     },
 
     onReset(event) {
