@@ -49,6 +49,7 @@ export default {
       }
 
       this.todos = JSON.parse(tasks);
+
       console.log(this.todos.filter((item) => {return item.is_completed}).length);
 
     },
@@ -64,9 +65,9 @@ export default {
       if (this.formSetting.title == "Добавить задачу") {
 
         let max_uid = Math.max.apply(Math,this.todos.map(function(o) { return o.uid; }));
-       if(!isFinite(max_uid)) {
-         max_uid = 0;
-       }
+        if(!isFinite(max_uid)) {
+          max_uid = 0;
+        }
         let desc = this.addTodoForm.description
 
         this.todos.push({
@@ -117,6 +118,10 @@ export default {
 
     updateTodo(todo) {
       this.addTodoForm = todo;
+
+      console.log(JSON.stringify(this.addTodoForm));
+      console.log(JSON.stringify(todo))
+
       this.formSetting = {
         title: "Обновить задачу",
         btnSubmit: "Обновить",

@@ -77,33 +77,6 @@
           <b-button type="reset" variant="danger">Сброс</b-button>
       </b-form>
     </b-modal>
-
-<!--     <b-modal ref="updateTodoModal"
-            id="todo-update-modal"
-            title="Update"
-            hide-footer>
-      <b-form @submit="onUpdateSubmit" @reset="onUpdateReset" class="w-100">
-      <b-form-group id="form-update-description-group"
-                    label="Описание:"
-                    label-for="form-update-description-input">
-        <b-form-input id="form-update-description-input"
-                      type="text"
-                      v-model="updateTodoForm.description"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="form-update-complete-group">
-        <b-form-checkbox-group v-model="updateTodoForm.is_completed" id="form-update-checks">
-          <b-form-checkbox value="true">Задача выполнена?</b-form-checkbox>
-        </b-form-checkbox-group>
-      </b-form-group>
-      <b-button-group>
-        <b-button type="submit" variant="primary">Обновить</b-button>
-        <b-button type="reset" variant="danger">Сброс</b-button>
-      </b-button-group>
-      </b-form>
-    </b-modal> -->
-
     </div>
   </div>
 </template>
