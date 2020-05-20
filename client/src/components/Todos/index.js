@@ -1,5 +1,3 @@
-import Confirmation from '../Confirmation/template.vue';
-
 export default {
   name: 'Todo',
   data() {
@@ -130,18 +128,11 @@ export default {
 
     updateTodo(todo) {
       this.addTodoForm = todo;
-
-      console.log(JSON.stringify(this.addTodoForm));
-      console.log(JSON.stringify(todo))
-
       this.formSetting = {
         title: "Обновить задачу",
         btnSubmit: "Обновить",
       };
     },
-  },
-  components: {
-    confirmation: Confirmation,
   },
   created() {
     this.getTodos();

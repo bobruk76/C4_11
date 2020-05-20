@@ -2,10 +2,18 @@
   <div class="container">
     <div class="col-sm-10">
       <h1>Задачи</h1>
-      <confirmation
-        :message="confirmationMessage"
-        :dismissCountDown="dismissCountDown">
-      </confirmation>
+
+      <b-alert
+        variant="danger"
+        dismissible
+        fade
+        v-model="dismissCountDown"
+        @dismissed="dismissCountDown=0"
+        >
+        {{ confirmationMessage }}
+      </b-alert>
+
+
 
 
       <table class="table">
