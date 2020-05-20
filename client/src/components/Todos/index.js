@@ -14,11 +14,6 @@ export default {
         title: "Добавить задачу",
         btnSubmit: "Добавить",
       },
-//      updateTodoForm: {
-//        uid: 0,
-//        description: '',
-//        is_completed: [],
-//      },
       confirmationMessage: '',
       showConfirmation: false,
     };
@@ -54,6 +49,8 @@ export default {
       }
 
       this.todos = JSON.parse(tasks);
+      console.log(this.todos.filter((item) => {return item.is_completed}).length);
+
     },
     resetForm() {
       this.addTodoForm.description = '';
@@ -64,21 +61,27 @@ export default {
       event.preventDefault();
       this.$refs.addTodoModal.hide();
 
-      let max_uid = Math.max.apply(this.todos.map(function(o) { return o.uid; }));
-      console.log(max_uid);
-      if(!isFinite(max_uid)) {
-        max_uid = 0;
+      if (this.formSetting.title == "Добавить задачу") {
+
+        let max_uid = Math.max.apply(Math,this.todos.map(function(o) { return o.uid; }));
+       if(!isFinite(max_uid)) {
+         max_uid = 0;
+       }
+        let desc = this.addTodoForm.description
+
+        this.todos.push({
+          description: desc,
+          is_completed: this.addTodoForm.is_completed[0] || false,
+          uid: max_uid+1,
+        });
+        localStorage.setItem("tasks", JSON.stringify(this.todos));
+        this.addConfirmation(`Задача "${desc}" добавлена`);
+      } else {
+        localStorage.setItem("tasks", JSON.stringify(this.todos));
+        this.addConfirmation('Задача обновлена');
+        this.getTodos();
       }
-      let desc = this.addTodoForm.description
 
-      this.todos.push({
-        description: desc,
-        is_completed: this.addTodoForm.is_completed[0] || false,
-        uid: max_uid+1,
-      });
-
-      localStorage.setItem("tasks", JSON.stringify(this.todos));
-      this.addConfirmation(`Задача "${desc}" добавлена`);
       this.resetForm();
     },
 
@@ -88,7 +91,7 @@ export default {
       setTimeout(() => {
         this.showConfirmation = false;
         this.confirmationMessage = '';
-      }, 5000)
+      }, 2000)
     },
 
     onReset(event) {
@@ -102,37 +105,22 @@ export default {
         return item!==todo;
       });
       localStorage.setItem("tasks", JSON.stringify(this.todos));
-            this.confirmationMessage = 'Задача удалена из списка';
-            this.showConfirmation = true;
+      this.addConfirmation('Задача удалена из списка');
+    },
+
+    setAddForm() {
+      this.formSetting = {
+        title: "Добавить задачу",
+        btnSubmit: "Добавить",
+      };
     },
 
     updateTodo(todo) {
       this.addTodoForm = todo;
-      console.log(JSON.stringify(todo));
-      console.log(JSON.stringify(this.addTodoForm));
-    },
-
-    onUpdateSubmit(event) {
-      event.preventDefault();
-      this.$refs.addTodoModal.hide();
-      localStorage.setItem("tasks", JSON.stringify(this.todos));
-      this.confirmationMessage = 'Задача обновлена';
-      this.showConfirmation = true;
-      this.getTodos();
-
-//      const requestData = {
-//        description: this.updateTodoForm.description,
-//        is_completed: this.updateTodoForm.is_completed[0],
-//      };
-//      const todoURL = dataURL + this.updateTodoForm.uid;
-//      axios.put(todoURL, requestData)
-//        .then(() => {
-//        });
-    },
-    onUpdateReset(event) {
-      event.preventDefault();
-      this.$refs.updateTodoModal.hide();
-      this.resetForm();
+      this.formSetting = {
+        title: "Обновить задачу",
+        btnSubmit: "Обновить",
+      };
     },
   },
   components: {

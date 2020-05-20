@@ -6,7 +6,13 @@
         :message="confirmationMessage"
         v-if="showConfirmation">
       </confirmation>
-      <button type="button" id="task-add" class="btn btn-success btn-sm align-left d-block" v-b-modal.todo-modal>Добавить задачу</button>
+      <button type="button"
+          id="task-add"
+          class="btn btn-success btn-sm align-left d-block"
+          v-b-modal.todo-modal
+          @click="setAddForm()">
+        Добавить задачу
+      </button>
 
       <table class="table table-dark table-stripped table-hover">
         <thead class="thead-light">
