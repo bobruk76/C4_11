@@ -4,8 +4,22 @@
       <h1>Задачи</h1>
       <confirmation
         :message="confirmationMessage"
-        v-if="showConfirmation">
+        :dismissCountDown="dismissCountDown">
       </confirmation>
+
+
+      <table class="table">
+        <tr class="table-success">
+          <td>Выполнено задач</td>
+          <td>{{ countTasks.completed }}</td>
+        </tr>
+
+        <tr class="table-danger">
+          <td>Не выполнено задач</td>
+          <td>{{ countTasks.un_completed }}</td>
+        </tr>
+
+      </table>
       <button type="button"
           id="task-add"
           class="btn btn-success btn-sm align-left d-block"

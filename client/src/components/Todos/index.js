@@ -14,8 +14,12 @@ export default {
         title: "Добавить задачу",
         btnSubmit: "Добавить",
       },
+      countTasks:{
+        completed:0,
+        un_completed:0,
+      },
       confirmationMessage: '',
-      showConfirmation: false,
+      dismissCountDown:0,
     };
   },
   methods: {
@@ -49,10 +53,14 @@ export default {
       }
 
       this.todos = JSON.parse(tasks);
-
-      console.log(this.todos.filter((item) => {return item.is_completed}).length);
-
+      this.calcCounts();
     },
+
+    calcCounts(){
+      this.countTasks.completed = this.todos.filter((item) => {return item.is_completed}).length;
+      this.countTasks.un_completed = this.todos.filter((item) => {return !item.is_completed}).length;
+    },
+
     resetForm() {
       this.addTodoForm.description = '';
       this.addTodoForm.is_completed = [];
@@ -75,9 +83,16 @@ export default {
           is_completed: this.addTodoForm.is_completed[0] || false,
           uid: max_uid+1,
         });
+
         localStorage.setItem("tasks", JSON.stringify(this.todos));
         this.addConfirmation(`Задача "${desc}" добавлена`);
+        this.calcCounts();
       } else {
+        this.todos.forEach(item => {
+          if(item.is_completed.length == 0) {
+           item.is_completed = false;
+          }
+        });
         localStorage.setItem("tasks", JSON.stringify(this.todos));
         this.addConfirmation('Задача обновлена');
         this.getTodos();
@@ -88,11 +103,7 @@ export default {
 
     addConfirmation(mess) {
       this.confirmationMessage = mess;
-      this.showConfirmation = true;
-      setTimeout(() => {
-        this.showConfirmation = false;
-        this.confirmationMessage = '';
-      }, 2000)
+      this.dismissCountDown = 3;
     },
 
     onReset(event) {
@@ -107,6 +118,7 @@ export default {
       });
       localStorage.setItem("tasks", JSON.stringify(this.todos));
       this.addConfirmation('Задача удалена из списка');
+      this.calcCounts();
     },
 
     setAddForm() {
