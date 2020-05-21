@@ -58,6 +58,7 @@ export default {
     },
 
     calcCounts(){
+      localStorage.setItem("tasksCount", this.todos.length);
       this.countTasks.completed = this.todos.filter((item) => {return item.is_completed}).length;
       this.countTasks.un_completed = this.todos.filter((item) => {return !item.is_completed}).length;
     },
