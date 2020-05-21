@@ -16,8 +16,11 @@ export default {
         completed:0,
         un_completed:0,
       },
-      confirmationMessage: '',
-      dismissCountDown:0,
+      confirmationSetting:{
+        variant:'',
+        message: '',
+        dismissCountDown:0,
+      },
     };
   },
   methods: {
@@ -83,7 +86,7 @@ export default {
         });
 
         localStorage.setItem("tasks", JSON.stringify(this.todos));
-        this.addConfirmation(`Задача "${desc}" добавлена`);
+        this.addConfirmation('info',`Задача "${desc}" добавлена`);
         this.calcCounts();
       } else {
         this.todos.forEach(item => {
@@ -92,16 +95,17 @@ export default {
           }
         });
         localStorage.setItem("tasks", JSON.stringify(this.todos));
-        this.addConfirmation('Задача обновлена');
+        this.addConfirmation('success','Задача обновлена');
         this.getTodos();
       }
 
       this.resetForm();
     },
 
-    addConfirmation(mess) {
-      this.confirmationMessage = mess;
-      this.dismissCountDown = 3;
+    addConfirmation(variant, message) {
+      this.confirmationSetting.variant=variant
+      this.confirmationSetting.message = message;
+      this.confirmationSetting.dismissCountDown = 3;
     },
 
     onReset(event) {
@@ -111,12 +115,19 @@ export default {
     },
 
     deleteTodo(todo) {
-      this.todos = this.todos.filter((item) =>{
-        return item!==todo;
-      });
-      localStorage.setItem("tasks", JSON.stringify(this.todos));
-      this.addConfirmation('Задача удалена из списка');
-      this.calcCounts();
+
+      this.todos.uid
+      if(this.todos.filter((item) => {return item.uid == todo.uid}).length>0){
+
+        this.todos = this.todos.filter((item) =>{
+          return item!==todo;
+        });
+        localStorage.setItem("tasks", JSON.stringify(this.todos));
+        this.addConfirmation('danger','Задача удалена из списка');
+        this.calcCounts();
+      } else {
+        this.addConfirmation('danger','Данные некорректны! Повторите Попытку позже!');
+      }
     },
 
     setAddForm() {

@@ -4,13 +4,13 @@
       <h1>Задачи</h1>
 
       <b-alert
-        variant="danger"
+        :variant="confirmationSetting.variant"
         dismissible
         fade
-        v-model="dismissCountDown"
-        @dismissed="dismissCountDown=0"
+        v-model="confirmationSetting.dismissCountDown"
+        @dismissed="confirmationSetting.dismissCountDown=0"
         >
-        {{ confirmationMessage }}
+        {{ confirmationSetting.message }}
       </b-alert>
 
       <table class="table">
